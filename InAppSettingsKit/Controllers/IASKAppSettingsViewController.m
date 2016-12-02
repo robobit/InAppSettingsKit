@@ -20,6 +20,7 @@
 #import "IASKSettingsStoreUserDefaults.h"
 #import "IASKPSSliderSpecifierViewCell.h"
 #import "IASKPSTextFieldSpecifierViewCell.h"
+#import "IASKPSDateTimeSpecifierViewCell.h"
 #import "IASKSwitch.h"
 #import "IASKSlider.h"
 #import "IASKSpecifier.h"
@@ -516,6 +517,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 		cell = [[IASKPSTextFieldSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSTextFieldSpecifier];
 		[((IASKPSTextFieldSpecifierViewCell*)cell).textField addTarget:self action:@selector(_textChanged:) forControlEvents:UIControlEventEditingChanged];
 	}
+    else if ([identifier hasPrefix:kIASKPSDateTimeFieldSpecifier]) {
+        cell = [[IASKPSDateTimeSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSDateTimeFieldSpecifier];
+        [((IASKPSDateTimeSpecifierViewCell*)cell).textField addTarget:self action:@selector(_textChanged:) forControlEvents:UIControlEventAllEditingEvents];
+    }
 	else if ([identifier hasPrefix:kIASKTextViewSpecifier]) {
         cell = [[IASKTextViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKTextViewSpecifier];
 	}
@@ -614,6 +619,32 @@ CGRect IASKCGRectSwap(CGRect rect);
 		textField.textAlignment = specifier.textAlignment;
 		textField.adjustsFontSizeToFitWidth = specifier.adjustsFontSizeToFitWidth;
 	}
+    else if ([specifier.type isEqualToString:kIASKPSDateTimeFieldSpecifier]) {
+        cell.textLabel.text = specifier.title;
+
+        NSString *textValue = [self.settingsStore objectForKey:specifier.key] != nil ? [self.settingsStore objectForKey:specifier.key] : specifier.defaultStringValue;
+        if (textValue && ![textValue isMemberOfClass:[NSString class]]) {
+            textValue = [NSString stringWithFormat:@"%@", textValue];
+        }
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:00"];
+        ((IASKPSDateTimeSpecifierViewCell*)cell).datePicker.date = [df dateFromString:textValue];
+        IASKTextField *textField = ((IASKPSDateTimeSpecifierViewCell*)cell).textField;
+        textField.text = textValue;
+        textField.placeholder = specifier.placeholder;
+        textField.key = specifier.key;
+        textField.delegate = self;
+        textField.secureTextEntry = [specifier isSecure];
+        textField.keyboardType = specifier.keyboardType;
+        textField.autocapitalizationType = specifier.autocapitalizationType;
+        if([specifier isSecure]){
+            textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        } else {
+            textField.autocorrectionType = specifier.autoCorrectionType;
+        }
+        textField.textAlignment = specifier.textAlignment;
+        textField.adjustsFontSizeToFitWidth = specifier.adjustsFontSizeToFitWidth;
+    }
 	else if ([specifier.type isEqualToString:kIASKTextViewSpecifier]) {
 		IASKTextViewCell *textCell = (id)cell;
 		NSString *value = [self.settingsStore objectForKey:specifier.key] != nil ? [self.settingsStore objectForKey:specifier.key] : specifier.defaultStringValue;

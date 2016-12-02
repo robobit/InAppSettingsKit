@@ -18,6 +18,7 @@ FOUNDATION_EXPORT const unsigned char InAppSettingsKitFrameworkVersionString[];
 #import <InAppSettingsKit/IASKAppSettingsWebViewController.h>
 #import <InAppSettingsKit/IASKPSSliderSpecifierViewCell.h>
 #import <InAppSettingsKit/IASKPSTextFieldSpecifierViewCell.h>
+#import <InAppSettingsKit/IASKPSDateTimeSpecifierViewCell.h>
 #import <InAppSettingsKit/IASKSettingsReader.h>
 #import <InAppSettingsKit/IASKSettingsStore.h>
 #import <InAppSettingsKit/IASKSettingsStoreFile.h>
