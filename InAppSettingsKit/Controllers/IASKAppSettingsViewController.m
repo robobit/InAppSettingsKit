@@ -922,7 +922,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 - (void)_textChanged:(id)sender {
     IASKTextField *text = sender;
-    [_settingsStore setObject:[text text] forKey:[text key]];
+    [self.settingsStore setObject:[text text] forKey:[text key]];
     [[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:[text text]
@@ -956,7 +956,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		[self.tableView scrollRectToVisible:CGRectInset(cellFrame, 0, - 30) animated:YES];
 	}
 
-	[_settingsStore setObject:textView.text forKey:textView.key];
+	[self.settingsStore setObject:textView.text forKey:textView.key];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged
 														object:textView.key
 													  userInfo:@{textView.key: textView.text}];
@@ -976,7 +976,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 #pragma mark Notifications
 
 - (void)synchronizeSettings {
-    [_settingsStore synchronize];
+    [self.settingsStore synchronize];
 }
 
 static NSDictionary *oldUserDefaults = nil;
