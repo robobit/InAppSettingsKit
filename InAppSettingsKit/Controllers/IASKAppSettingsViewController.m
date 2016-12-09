@@ -627,7 +627,7 @@ CGRect IASKCGRectSwap(CGRect rect);
             textValue = [NSString stringWithFormat:@"%@", textValue];
         }
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"yyyy-MM-dd HH:mm:00"];
+        [df setDateFormat:@"MM-dd-yyyy HH:mm:00"];
         ((IASKPSDateTimeSpecifierViewCell*)cell).datePicker.date = [df dateFromString:textValue];
         IASKTextField *textField = ((IASKPSDateTimeSpecifierViewCell*)cell).textField;
         textField.text = textValue;

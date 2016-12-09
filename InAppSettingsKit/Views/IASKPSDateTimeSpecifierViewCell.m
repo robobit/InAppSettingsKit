@@ -52,7 +52,7 @@
     NSDate *date = self.datePicker.date;
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd HH:mm:00"];
+    [df setDateFormat:@"MM-dd-yyyy HH:mm:00"];
     
     self.textField.text = [df stringFromDate:date];
 }
